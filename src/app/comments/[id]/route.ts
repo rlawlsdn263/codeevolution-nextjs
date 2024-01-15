@@ -31,3 +31,22 @@ export async function PATCH(
   comments[index].text = text;
   return Response.json(comments[index]);
 }
+
+/* DELETE */
+export async function DELETE(
+  _request: Request,
+  { params }: { params: { id: string } }
+) {
+  //params.id와 일치하는 comment를 찾는다
+  const index = comments.findIndex(
+    (comment) => comment.id === parseInt(params.id)
+  );
+
+  // 제거할 댓글 저장하기
+  const deletedComment = comments[index];
+
+  // 배열에서 해당 index에 위치한 요소 제거하기
+  comments.splice(index, 1);
+
+  return Response.json(deletedComment);
+}
