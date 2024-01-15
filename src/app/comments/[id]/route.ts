@@ -12,3 +12,22 @@ export async function GET(
   );
   return Response.json(comment);
 }
+
+/* PATCH */
+export async function PATCH(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  // PATCH는 전달받은 데이터가 필요하기 때문에 request 파라미터에 접근한다
+  const body = await request.json();
+  const { text } = body;
+
+  // findIndex로 comment 중에 params와 id값이 일치하는 인덱스값을
+  const index = comments.findIndex(
+    (comment) => comment.id === parseInt(params.id)
+  );
+
+  // 배열의 인덱스에 접근해 값을 업데이트 시킨다
+  comments[index].text = text;
+  return Response.json(comments[index]);
+}
